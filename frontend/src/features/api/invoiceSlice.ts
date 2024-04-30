@@ -24,7 +24,7 @@ const initialState: InvoiceState = {
 // send monthly invoices
 export const sendInvoices = createAsyncThunk(
   "api/sendInvoices",
-  async (_, { rejectWithValue }) => {
+  async (_, {}) => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/invoice/", {
         method: "POST",
@@ -55,7 +55,7 @@ export const invoiceSlice = createSlice({
       })
       .addCase(sendInvoices.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.data = action.payload;
+        state.invoices = action.payload;
       })
       .addCase(sendInvoices.rejected, (state, action) => {
         state.status = "failed";
