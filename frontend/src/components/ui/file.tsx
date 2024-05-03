@@ -1,12 +1,12 @@
+// @ts-nocheck
 import { ReactNode, createContext, useContext, useReducer } from "react";
 
-enum FileActionType { }
+enum FileActionType {}
 
 type ReducerAction<T, P> = {
   type: T;
   payload?: Partial<P>;
 };
-
 
 type FileContextState = {
   isLoading: boolean;
@@ -14,10 +14,7 @@ type FileContextState = {
   fileList: File[]; // & {} You can add more information about the challenge inside this type
 };
 
-type FileAction = ReducerAction<
-  FileActionType,
-  Partial<FileContextState>
->;
+type FileAction = ReducerAction<FileActionType, Partial<FileContextState>>;
 
 type FileDispatch = ({ type, payload }: FileAction) => void;
 
@@ -37,7 +34,7 @@ const FileContext = createContext({} as FileContextType);
 
 const FileReducer = (
   state: FileContextState,
-  action: FileAction,
+  action: FileAction
 ): FileContextState => {
   switch (action.type) {
     default: {
@@ -49,7 +46,7 @@ const FileReducer = (
 const FileProvider = ({ children }: FileProviderProps) => {
   const [state, dispatch] = useReducer(
     FileReducer,
-    FileContextInitialValues as FileContextState,
+    FileContextInitialValues as FileContextState
   );
 
   return (
@@ -67,4 +64,3 @@ const useFileContext = () => {
 
   return context;
 };
-

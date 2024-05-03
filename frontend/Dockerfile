@@ -1,25 +1,19 @@
-# Dockerfile
-FROM node:21.7
+FROM node:16
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# Copy package.json and package-lock.json (or yarn.lock if using Yarn)
+COPY package*.json ./
 
-# Install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
+# Install dependencies
 RUN npm install
 
-# Copy project files into the Docker image
-COPY . ./
+# Copy the rest of your frontend application
+COPY . .
 
-# Build the app
-RUN npm run build:node
-
-# Expose port to access the server
-EXPOSE 8888
+# # Build your application using the node-specific build script
+RUN npm run build
 
 # Command to serve the app using Vite
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "dev"]

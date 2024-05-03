@@ -1,39 +1,36 @@
 version: "3.8"
+
 services:
   db:
     image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: kanastra
       POSTGRES_USER: kanastra
       POSTGRES_PASSWORD: kanastra
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
 
   backend:
     build: ./backend
     volumes:
-      - ./backend:/code
+      - ./backend:/app
+      - static_volume:/app/staticfiles
     ports:
       - "8000:8000"
     depends_on:
       - db
     environment:
-      - DATABASE_HOST=db
-      - DATABASE_NAME=kanastra
-      - DATABASE_USER=kanastra
-      - DATABASE_PASSWORD=kanastra
-      - DATABASE_PORT=5432
+      DATABASE_URL: postgres://kanastra:kanastra@db/kanastra
 
   frontend:
     build: ./frontend
     ports:
       - "8888:8888"
-    volumes:
-      - ./frontend:/app
     depends_on:
       - backend
+    environment:
+      REACT_APP_BACKEND_URL: http://backend:8000
 
 volumes:
   postgres_data:
+  static_volume:
