@@ -5,7 +5,11 @@ function Footer(): ReactElement {
     <footer className="p-4 text-center bg-light-blue text-primary">
       <p>
         © 2024{" "}
-        <a className="font-semibold" href="https://github.com/marcelrzd">
+        <a
+          className="font-semibold"
+          target="_blank"
+          href="https://github.com/marcelrzd"
+        >
           Marcel
         </a>
       </p>
